@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer 2026 — The Constants</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --green: #059669; --green-bg: #ecfdf5; --green-light: #d1fae5; --green-text: #065f46;
+    --amber: #d97706; --amber-bg: #fffbeb; --amber-light: #fef3c7; --amber-text: #92400e;
+    --cyan: #0891b2; --cyan-bg: #ecfeff; --cyan-light: #cffafe; --cyan-text: #155e75;
+    --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+    --slate-400: #94a3b8; --slate-500: #64748b; --slate-700: #334155; --slate-900: #0f172a;
+    --indigo: #4f46e5; --indigo-bg: #eef2ff; --indigo-light: #e0e7ff;
+    --pink: #db2777; --pink-bg: #fdf2f8; --pink-light: #fce7f3;
+    --rail-width: 96px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f7f9fc;
+    color: var(--slate-900);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.4;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* === HEADER === */
+  header {
+    border-bottom: 1px solid var(--slate-200);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  header .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    margin-bottom: 6px;
+  }
+  header h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  header .lead {
+    margin-top: 8px;
+    color: var(--slate-500);
+    font-size: 1rem;
+  }
+
+  /* === STATS + LEGEND === */
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .stat {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .stat .num { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+  .stat .lbl {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 4px;
+  }
+  .legend {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--slate-700);
+    margin-bottom: 32px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* === KIDS HEADER === */
+  .kids-header {
+    display: grid;
+    grid-template-columns: var(--rail-width) 1fr 1fr;
+    gap: 12px;
+    padding: 0 4px 12px;
+    position: sticky;
+    top: 0;
+    background: #f7f9fc;
+    z-index: 10;
+    border-bottom: 1px solid var(--slate-200);
+    margin-bottom: 8px;
+  }
+  .kids-header .spacer {}
+  .kids-header .kid-tab {
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .kids-header .kid-tab.ricky { background: var(--indigo-bg); color: var(--indigo); }
+  .kids-header .kid-tab.cora { background: var(--pink-bg); color: var(--pink); }
+  .kids-header .kid-tab .age {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* === TIMELINE === */
+  .timeline {
+    position: relative;
+  }
+
+  .month-marker {
+    display: grid;
+    grid-template-columns: var(--rail-width) 1fr;
+    gap: 12px;
+    align-items: center;
+    margin: 28px 0 12px;
+  }
+  .month-marker:first-child { margin-top: 8px; }
+  .month-marker .month-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--slate-700);
+    text-align: right;
+    padding-right: 14px;
+  }
+  .month-marker .month-line {
+    height: 1px;
+    background: var(--slate-200);
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: var(--rail-width) 1fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .week::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--rail-width) - 1px);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--slate-100);
+  }
+  .week .rail {
+    text-align: right;
+    padding-right: 18px;
+    position: relative;
+  }
+  .week .wk-num {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--slate-400);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .week .wk-dates {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+  .week .rail::after {
+    content: "";
+    position: absolute;
+    right: -7px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 2px solid var(--slate-200);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .week.has-booked .rail::after { border-color: var(--green); background: var(--green); }
+  .week.has-pending .rail::after { border-color: var(--amber); background: var(--amber); }
+  .week.has-trip .rail::after { border-color: var(--cyan); background: var(--cyan); }
+
+  /* === SLOTS === */
+  .slot {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-left-width: 3px;
+    border-radius: 8px;
+    padding: 12px 14px;
+    min-height: 78px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slot.booked { border-left-color: var(--green); }
+  .slot.pending { border-left-color: var(--amber); }
+  .slot.trip { border-left-color: var(--cyan); background: var(--cyan-bg); }
+  .slot.open {
+    background: transparent;
+    border: 1px dashed var(--slate-200);
+    color: var(--slate-400);
+  }
+  .slot.full-width { grid-column: 2 / span 2; }
+
+  .slot .activity {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    line-height: 1.25;
+  }
+  .slot .detail {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+  .slot.open .activity {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--slate-400);
+  }
+  .slot .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 8px;
+    align-self: flex-start;
+  }
+  .pill.booked { background: var(--green-light); color: var(--green-text); }
+  .pill.pending { background: var(--amber-light); color: var(--amber-text); }
+  .pill.trip { background: var(--cyan-light); color: var(--cyan-text); }
+
+  .slot .who {
+    font-size: 0.68rem;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* === DETAILS SECTION === */
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin: 48px 0 16px;
+  }
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .detail-card {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-left-width: 4px;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .detail-card.booked { border-left-color: var(--green); }
+  .detail-card.pending { border-left-color: var(--amber); }
+  .detail-card.trip { border-left-color: var(--cyan); }
+  .detail-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .detail-card .who-line {
+    font-size: 0.72rem;
+    color: var(--slate-500);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .badge.green { background: var(--green-light); color: var(--green-text); }
+  .badge.amber { background: var(--amber-light); color: var(--amber-text); }
+  .badge.cyan { background: var(--cyan-light); color: var(--cyan-text); }
+
+  .detail-card .meta {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--slate-100);
+    font-size: 0.82rem;
+  }
+  .detail-card .meta:last-child { border-bottom: none; }
+  .meta .k { color: var(--slate-500); font-weight: 500; }
+  .meta .v { font-weight: 600; text-align: right; max-width: 60%; }
+
+  /* === TODO === */
+  .todo-card {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .todo-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--slate-100);
+    align-items: flex-start;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-item:first-child { padding-top: 0; }
+  .todo-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: white;
+  }
+  .todo-num.urgent { background: var(--amber); }
+  .todo-num.normal { background: var(--indigo); }
+  .todo-num.low { background: var(--slate-500); }
+  .todo-text .title { font-size: 0.88rem; font-weight: 600; }
+  .todo-text .desc {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 16px;
+    border-top: 1px solid var(--slate-200);
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--slate-400);
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 720px) {
+    :root { --rail-width: 64px; }
+    .container { padding: 20px 14px 60px; }
+    header h1 { font-size: 1.7rem; }
+    .meta-row { grid-template-columns: 1fr; gap: 10px; }
+    .stats { grid-template-columns: repeat(4, 1fr); }
+    .week {
+      grid-template-columns: var(--rail-width) 1fr;
+      grid-template-rows: auto auto;
+    }
+    .week .rail { grid-row: 1 / span 2; }
+    .slot.full-width { grid-column: 2; }
+    .kids-header { display: none; }
+    .slot .who { display: block; }
+  }
+  @media (min-width: 721px) {
+    .slot .who { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="eyebrow">The Constant Family</div>
+    <h1>Summer 2026</h1>
+    <p class="lead">May 26 &ndash; Aug 14 &middot; 12 weeks of camps, trips, and downtime for Ricky and Cora.</p>
+  </header>
+
+  <div class="kids-header" style="margin-top: 8px;">
+    <div class="spacer"></div>
+    <div class="kid-tab ricky">Ricky <span class="age">11 &middot; entering 6th</span></div>
+    <div class="kid-tab cora">Cora <span class="age">9 &middot; entering 4th</span></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="month-marker"><div class="month-label">May</div><div class="month-line"></div></div>
+
+    <div class="week has-pending">
+      <div class="rail">
+        <div class="wk-num">Week 1</div>
+        <div class="wk-dates">May 26 &ndash; 30</div>
+      </div>
+      <div class="slot pending full-width">
+        <div class="who">Both kids</div>
+        <div class="activity">Pearl Theater &middot; Shakespeare with a Twist</div>
+        <div class="detail">9am &ndash; 5pm &middot; Pearland</div>
+        <span class="pill pending">Pending</span>
+      </div>
+    </div>
+
+    <div class="month-marker"><div class="month-label">June</div><div class="month-line"></div></div>
+
+    <div class="week has-trip">
+      <div class="rail">
+        <div class="wk-num">Week 2</div>
+        <div class="wk-dates">Jun 1 &ndash; 5</div>
+      </div>
+      <div class="slot trip full-width">
+        <div class="who">Whole family</div>
+        <div class="activity">&#9992;&#65039; Japan Family Trip</div>
+        <div class="detail">Jun 1 &ndash; 10 &middot; Flights and hotels confirmed</div>
+        <span class="pill trip">Confirmed</span>
+      </div>
+    </div>
+
+    <div class="week has-trip">
+      <div class="rail">
+        <div class="wk-num">Week 3</div>
+        <div class="wk-dates">Jun 8 &ndash; 12</div>
+      </div>
+      <div class="slot trip full-width">
+        <div class="who">Whole family</div>
+        <div class="activity">&#9992;&#65039; Japan &middot; return Jun 10</div>
+        <div class="detail">Back home Wednesday &middot; rest of week to recover</div>
+        <span class="pill trip">Confirmed</span>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="rail">
+        <div class="wk-num">Week 4</div>
+        <div class="wk-dates">Jun 15 &ndash; 19</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Ricky</div>
+        <div class="activity">Open &middot; recovery week</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Cora</div>
+        <div class="activity">Open &middot; recovery week</div>
+      </div>
+    </div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 5</div>
+        <div class="wk-dates">Jun 22 &ndash; 26</div>
+      </div>
+      <div class="slot booked">
+        <div class="who">Ricky</div>
+        <div class="activity">SPCA Critter Camp</div>
+        <div class="detail">Backyard Biologist &middot; with extended care</div>
+        <span class="pill booked">Booked</span>
+      </div>
+      <div class="slot booked">
+        <div class="who">Cora</div>
+        <div class="activity">Camp Cho-Yeh</div>
+        <div class="detail">Trails CORE 5 &middot; Jun 21 &ndash; 27 &middot; Livingston, TX</div>
+        <span class="pill booked">Booked</span>
+      </div>
+    </div>
+
+    <div class="month-marker"><div class="month-label">July</div><div class="month-line"></div></div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 6</div>
+        <div class="wk-dates">Jun 29 &ndash; Jul 3</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Ricky</div>
+        <div class="activity">Open</div>
+      </div>
+      <div class="slot booked">
+        <div class="who">Cora</div>
+        <div class="activity">SPCA Critter Camp</div>
+        <div class="detail">Pet Pals</div>
+        <span class="pill booked">Booked</span>
+      </div>
+    </div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 7</div>
+        <div class="wk-dates">Jul 6 &ndash; 10</div>
+      </div>
+      <div class="slot booked">
+        <div class="who">Ricky</div>
+        <div class="activity">National Math Camp</div>
+        <div class="detail">California &middot; starts Jul 5 &middot; flights TBD</div>
+        <span class="pill booked">Booked</span>
+      </div>
+      <div class="slot open">
+        <div class="who">Cora</div>
+        <div class="activity">Open</div>
+      </div>
+    </div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 8</div>
+        <div class="wk-dates">Jul 13 &ndash; 17</div>
+      </div>
+      <div class="slot booked">
+        <div class="who">Ricky</div>
+        <div class="activity">National Math Camp</div>
+        <div class="detail">California &middot; ends Jul 17</div>
+        <span class="pill booked">Booked</span>
+      </div>
+      <div class="slot open">
+        <div class="who">Cora</div>
+        <div class="activity">Open</div>
+      </div>
+    </div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 9</div>
+        <div class="wk-dates">Jul 20 &ndash; 24</div>
+      </div>
+      <div class="slot booked full-width">
+        <div class="who">Both kids</div>
+        <div class="activity">Alley Theatre &middot; PlayMakers Session E</div>
+        <div class="detail">9am &ndash; 3pm &middot; extended care 8am &ndash; 5pm booked</div>
+        <span class="pill booked">Booked</span>
+      </div>
+    </div>
+
+    <div class="week has-booked">
+      <div class="rail">
+        <div class="wk-num">Week 10</div>
+        <div class="wk-dates">Jul 27 &ndash; 31</div>
+      </div>
+      <div class="slot booked full-width">
+        <div class="who">Both kids</div>
+        <div class="activity">Alley Theatre &middot; Session E continues</div>
+        <div class="detail">Final performance Friday</div>
+        <span class="pill booked">Booked</span>
+      </div>
+    </div>
+
+    <div class="month-marker"><div class="month-label">August</div><div class="month-line"></div></div>
+
+    <div class="week">
+      <div class="rail">
+        <div class="wk-num">Week 11</div>
+        <div class="wk-dates">Aug 3 &ndash; 7</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Ricky</div>
+        <div class="activity">Open</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Cora</div>
+        <div class="activity">Open</div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="rail">
+        <div class="wk-num">Week 12</div>
+        <div class="wk-dates">Aug 10 &ndash; 14</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Ricky</div>
+        <div class="activity">Open &middot; wind-down before school</div>
+      </div>
+      <div class="slot open">
+        <div class="who">Cora</div>
+        <div class="activity">Open &middot; wind-down before school</div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <h2 class="section-title">Booking details</h2>
+  <div class="details-grid">
+
+    <div class="detail-card trip">
+      <h3>Japan Family Trip</h3>
+      <div class="who-line">Whole family <span class="badge cyan">Confirmed</span></div>
+      <div class="meta"><span class="k">Dates</span><span class="v">Jun 1 &ndash; 10</span></div>
+      <div class="meta"><span class="k">Status</span><span class="v">Flights &amp; hotels booked</span></div>
+      <div class="meta"><span class="k">Buffer</span><span class="v">10 days before camps</span></div>
+    </div>
+
+    <div class="detail-card pending">
+      <h3>Pearl Theater</h3>
+      <div class="who-line">Both kids <span class="badge amber">Pending</span></div>
+      <div class="meta"><span class="k">Show</span><span class="v">Shakespeare w/ a Twist</span></div>
+      <div class="meta"><span class="k">Dates</span><span class="v">May 26 &ndash; 30</span></div>
+      <div class="meta"><span class="k">Hours</span><span class="v">9am &ndash; 5pm</span></div>
+    </div>
+
+    <div class="detail-card booked">
+      <h3>SPCA Critter Camp</h3>
+      <div class="who-line">Both kids <span class="badge green">Booked</span></div>
+      <div class="meta"><span class="k">Ricky</span><span class="v">Backyard Biologist &middot; Jun 22 &ndash; 26</span></div>
+      <div class="meta"><span class="k">Cora</span><span class="v">Pet Pals &middot; Jun 29 &ndash; Jul 3</span></div>
+      <div class="meta"><span class="k">Location</span><span class="v">7007 Old Katy Rd</span></div>
+    </div>
+
+    <div class="detail-card booked">
+      <h3>Camp Cho-Yeh</h3>
+      <div class="who-line">Cora only <span class="badge green">Booked</span></div>
+      <div class="meta"><span class="k">Session</span><span class="v">Trails CORE 5</span></div>
+      <div class="meta"><span class="k">Dates</span><span class="v">Jun 21 &ndash; 27</span></div>
+      <div class="meta"><span class="k">Location</span><span class="v">Livingston, TX</span></div>
+    </div>
+
+    <div class="detail-card booked">
+      <h3>National Math Camp</h3>
+      <div class="who-line">Ricky only <span class="badge green">Booked</span></div>
+      <div class="meta"><span class="k">Dates</span><span class="v">Jul 5 &ndash; 17</span></div>
+      <div class="meta"><span class="k">Location</span><span class="v">California</span></div>
+      <div class="meta"><span class="k">Travel</span><span class="v">Flights still needed</span></div>
+    </div>
+
+    <div class="detail-card booked">
+      <h3>Alley Theatre PlayMakers</h3>
+      <div class="who-line">Both kids <span class="badge green">Booked</span></div>
+      <div class="meta"><span class="k">Session</span><span class="v">E</span></div>
+      <div class="meta"><span class="k">Dates</span><span class="v">Jul 20 &ndash; 31</span></div>
+      <div class="meta"><span class="k">Hours</span><span class="v">9am &ndash; 3pm</span></div>
+      <div class="meta"><span class="k">Extended care</span><span class="v">8am &ndash; 5pm &middot; booked</span></div>
+    </div>
+
+  </div>
+
+  <footer>
+    Last updated April 27, 2026
+  </footer>
+
+</div>
+
+</body>
+</html>
